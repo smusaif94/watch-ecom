@@ -1,0 +1,307 @@
+🧠 PROJECT TITLE:
+Full-Stack Influencer Watch E-commerce Website – Mobile-First, Azure-Deployed
+
+🎯 PROJECT GOAL:
+Build a luxury e-commerce store for an influencer-led watch brand, focused on mobile users. The platform should be fully responsive, secure, optimized for Indian users, and deployed manually on Microsoft Azure.
+
+---
+
+🔧 TECH STACK:
+
+- Frontend: Next.js + TypeScript
+- Styling: Tailwind CSS (mobile-first UI)
+- Backend: Next.js API Routes (can use Express if needed)
+- State Management: React Context or Zustand
+- Database: MongoDB with Mongoose
+- Payment Gateway: Razorpay
+- Auth: JWT or Express session (admin only)
+- Deployment: Azure App Service (manual deployment)
+- Image Storage: Cloudinary or public folder
+- Emailing (optional): Nodemailer
+- Environment Config: `.env` with secrets
+
+---
+
+📁 FOLDER STRUCTURE OVERVIEW:
+- /pages
+  - /shop
+  - /watch/[slug].tsx
+  - /cart.tsx
+  - /checkout.tsx
+  - /success.tsx
+  - /admin
+  - /api
+    - /products
+    - /orders
+    - /auth
+    - /razorpay
+- /components
+- /models
+- /lib
+- /styles
+- /public
+- .env.example
+- README.md
+
+---
+
+🔷 PART 1: FRONTEND PAGES + DATABASE MODELS
+
+📄 Pages Required:
+
+1. `/` Homepage
+   - Influencer hero section
+   - Featured collection
+   - Brand story
+   - Testimonials
+   - Newsletter signup
+   - Social links
+   - Trust badges
+
+2. `/shop`
+   - Product grid
+   - Filter by price, category, brand
+   - Sort by: newest, popular, price
+   - Pagination or Load More
+
+3. `/watch/[slug]`
+   - Watch gallery (zoomable images)
+   - Price, discount
+   - Description
+   - Specifications table
+   - Quantity selector
+   - Related products
+   - Reviews
+   - Share buttons
+
+4. `/cart`
+   - Product list, price, quantity controls
+   - Subtotal, shipping, promo code
+   - Checkout CTA
+
+5. `/checkout`
+   - User info: name, email, phone
+   - Shipping address
+   - Order summary
+   - Razorpay payment
+
+6. `/success`
+   - Order confirmation
+   - Razorpay transaction ID
+   - Order summary
+   - Track order
+
+7. `/about`
+   - Influencer background
+   - Brand story
+   - Awards/mentions
+   - Contact info
+
+8. `/admin`
+   - Admin login
+   - Dashboard with sales metrics
+   - Products CRUD
+   - Orders view/update
+   - Low-stock alerts
+
+🧱 Mongoose Models:
+
+- WatchProduct:
+  id, name, slug, description, price, originalPrice, discount, category, brand, features[], specifications{}, materials[], images[], stockQuantity, warranty, weight, inStock, isNewArrival, createdAt, updatedAt
+
+- Order:
+  id, orderNumber, customer info (name, email, phone, address), items[], subtotal, tax, shipping, total, paymentMethod, paymentId, paymentStatus, orderStatus, notes, trackingNumber, createdAt
+
+- User (Admin Only):
+  id, username, email, password (hashed), role, lastLogin, createdAt
+
+- Optional Cart (if not using local/session)
+
+---
+
+🔷 PART 2: BACKEND API ROUTES + ADMIN + PAYMENTS
+
+✅ API ROUTES (Next.js API)
+
+- `/api/products`:
+  - GET all products
+  - POST create product (admin)
+  - PUT update product (admin)
+  - DELETE product (admin)
+
+- `/api/orders`:
+  - POST create order
+  - GET order by ID
+  - PUT update order status (admin)
+
+- `/api/cart`:
+  - POST add item
+  - PUT update quantity
+  - DELETE remove item
+
+- `/api/auth/login`: Admin login
+- `/api/razorpay/create-order`: Create Razorpay order
+- `/api/razorpay/webhook`: Handle payment webhook
+- `/api/newsletter`: Email signup
+- `/api/reviews`: Submit reviews
+
+🔐 Admin Auth:
+- Login form at `/admin`
+- Use JWT or session cookies
+- Hash passwords with bcrypt
+- Protect admin API routes
+- Role-based access
+- Secure cookies
+
+💳 Razorpay Setup:
+- Use `razorpay` npm SDK
+- Create order on backend → return `orderId`
+- Open Razorpay checkout on frontend
+- Verify webhook via Razorpay signature
+- Update order status on success
+
+---
+
+🔷 PART 3: MOBILE UX + AZURE DEPLOYMENT + EXTRAS
+
+📱 Mobile Optimization:
+- Tailwind CSS mobile-first classes
+- Tap-friendly buttons (min 44px)
+- Lazy loading product images
+- Fast load time
+- Smooth transitions
+
+⚡ Performance:
+- Compress images
+- Use CDN if possible
+- Minify CSS/JS
+- SEO: title, description, OG tags, canonical URLs
+
+☁️ Azure Manual Deployment:
+- Use Git or Azure CLI to push Next.js app
+- `npm run build && npm start`
+- Set environment variables in Azure Portal:
+  - `MONGODB_URI`
+  - `RAZORPAY_KEY_ID`
+  - `RAZORPAY_KEY_SECRET`
+  - `NEXTAUTH_SECRET`
+  - `NEXT_PUBLIC_SITE_URL`
+
+📄 Sample `.env.example`:
+
+
+
+
+##############################################################################################################################
+MONGODB_URI=mongodb+srv://...
+RAZORPAY_KEY_ID=your_key
+RAZORPAY_KEY_SECRET=your_secret
+NEXTAUTH_SECRET=secret_token
+NEXT_PUBLIC_SITE_URL=https://yourdomain.com
+############################################################################################################################################################
+
+
+
+
+🔁 Optional Features:
+- Wishlist
+- Coupons & promo codes
+- Recently viewed
+- Personalized recommendations
+- Affiliate/influencer referral
+- Instagram feed integration
+- CSV export from admin
+- Analytics dashboard (admin)
+
+📧 Emails (optional):
+- Nodemailer or 3rd party service
+- Order confirmation
+- Shipping notification
+- Admin alert on new orders
+
+📊 Analytics:
+- GA4 or Vercel Analytics
+- Track product views, sales
+- Sales reports in admin panel
+
+---
+
+✅ PROGRESS TRACKING:
+
+### FRONTEND:
+1. **Setup**:
+   - Initialized the frontend using Vite (React template).
+   - Installed Tailwind CSS for styling.
+   - Configured Tailwind CSS with `tailwind.config.js`.
+
+2. **Pages Created**:
+   - `/` (Home): Displays available watches with sample data.
+   - `/product/:id` (Product Details): Shows details of a specific watch.
+   - `/cart`: Displays items in the cart.
+   - `/checkout`: Checkout page with payment button.
+   - `/login`: Login/Signup page.
+   - `/admin`: Admin dashboard for managing watches.
+
+3. **Routing**:
+   - Implemented React Router for navigation between pages.
+   - Verified routing functionality.
+
+4. **Design**:
+   - Used Tailwind CSS for responsive and clean UI.
+   - Added navigation bar and footer.
+
+### NEXT STEPS:
+1. **Backend Setup**:
+   - Create `api/` folder with Azure Functions.
+   - Implement APIs for watches, orders, authentication, and payments.
+
+2. **Database**:
+   - Set up Azure SQL or MongoDB for storing watch data, user info, and orders.
+
+3. **Payment Integration**:
+   - Integrate rayzorpay for secure payments.
+
+4. **Deployment**:
+   - Deploy the frontend and backend to Azure.
+   - Configure environment variables for secrets.
+
+5. **Testing**:
+   - Test the entire application end-to-end.
+
+---
+
+### INSTRUCTIONS TO FOLLOW:
+1. **Frontend**:
+   - Navigate to the `frontend/` directory.
+   - Run `npm run dev` to start the development server.
+   - Test the pages and routing.
+
+2. **Backend**:
+   - Navigate to the `api/` directory.
+   - Implement Azure Functions for APIs.
+   - Test API endpoints using Postman or similar tools.
+
+3. **Deployment**:
+   - Push the code to GitHub.
+   - Use Azure CLI or Portal to deploy the app.
+   - Set environment variables in Azure Portal.
+
+4. **Payment**:
+   - Configure rayzorpay API keys.
+   - Test payment flow in test mode.
+
+5. **Final Testing**:
+   - Ensure all pages, APIs, and payments work seamlessly.
+   - Optimize for mobile and performance.
+
+---
+
+✅ END GOAL:
+Generate a clean, production-ready full-stack e-commerce project with:
+- All pages
+- All APIs
+- Admin login + dashboard
+- Razorpay payments
+- Mobile-first responsive UI
+- Azure-deployable code
+- `.env` file + README.md
